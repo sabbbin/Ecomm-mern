@@ -24,7 +24,7 @@ app.use((err, req, res, next) => {
   res.json({
     data: null,
     success: false,
-     message
+     message:message?message:err
   });
 });
 

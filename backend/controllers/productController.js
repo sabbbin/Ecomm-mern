@@ -10,8 +10,7 @@ const Product =require('../model/product')
 class ProductController{
     //get all products => /api/v1/products
     getProduct=(req,res,next)=>{
-        console.log('helo',req.query)
-        
+      
 
         let filter={}
         if (req.query.key){
@@ -42,10 +41,16 @@ class ProductController{
          
          filter['price']={$gte:Number(value[0]),$lte:Number(value[1])}
         }
-        
-        console.log('abc',filter)
+        if (req.query.page){
 
+            let rowperpage=4
+            
+            var skiprow=rowperpage*(req.query.page-1)??0
+            
+        }
+       
          Product.find(filter)
+         .skip(skiprow)
          .then((product)=>{
             res.status(200).json({
                 success:true,
