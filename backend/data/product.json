@@ -1,5 +1,38 @@
  [
-     {
+    {
+        "name":"sandisk Ultra",
+        "price":"45.34",
+        "description":"ultra-fast cards to take better picture",
+        "ratings":4.6,
+        "images":[
+            {
+                "public_id":"products/dsafasdf",
+                "url":"https://res.cloudinary"
+            }
+        ],
+        "category":"Electronics",
+        "seller":"ebay",
+        "stock":50,
+        "numOfReviews":32,
+        "reviews":[]
          
-     }
+    },
+    {
+        "name":"sandisk Ultra",
+        "price":"45.34",
+        "description":"ultra-fast cards to take better picture",
+        "ratings":4.6,
+        "images":[
+            {
+                "public_id":"products/dsafasdf",
+                "url":"https://res.cloudinary"
+            }
+        ],
+        "category":"Electronics",
+        "seller":"ebay",
+        "stock":50,
+        "numOfReviews":32,
+        "reviews":[]
+         
+    }
  ]
