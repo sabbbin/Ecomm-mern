@@ -71,6 +71,7 @@ class ProductController{
    
 
         const product= new Product(req.body);
+        product.user=req.user.id
         product.save()
         .then((result)=>{
 
@@ -92,12 +93,12 @@ class ProductController{
     //get single product details=> /api/v1/product/:id
 
     getSingleProduct= (req,res,next)=>{
+        console.log('result')
        
         Product.findById(req.params.id)
         .then((result)=>{
             if (result){
 
-            
             res.status(200).json({
                 data:result,
                 success:true,
