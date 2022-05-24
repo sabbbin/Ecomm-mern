@@ -2,14 +2,50 @@
 
 
 const Product =require('../model/product')
-const errorHandler= require('../utils/errorHandler')
+
+
 
 
 
 class ProductController{
     //get all products => /api/v1/products
     getProduct=(req,res,next)=>{
-         Product.find()
+        console.log('helo',req.query)
+        
+
+        let filter={}
+        if (req.query.key){
+            filter={
+                name:{
+                    $regex: req.query.key, 
+                    $options:'i'},
+               
+            }
+        }
+        if (req.query.category){
+            filter['category']={
+           
+                $regex:req.query.category,
+                $options:'i'
+           
+        }
+        }
+        if (req.query.price){
+            console.log('pirce')
+         
+         let value=String(req.query.price).split('-')
+    
+         if (Number(value[0])>Number(value[1])){
+            value.reverse()
+          
+         }
+         
+         filter['price']={$gte:Number(value[0]),$lte:Number(value[1])}
+        }
+        
+        console.log('abc',filter)
+
+         Product.find(filter)
          .then((product)=>{
             res.status(200).json({
                 success:true,
@@ -18,11 +54,7 @@ class ProductController{
             })
          })
          .catch((er)=>{
-             res.json({
-                 success:false,
-                 data:'null',
-                 msg:'error in getting product'
-             })
+             next(er)
          })
         
     
@@ -34,9 +66,19 @@ class ProductController{
    
 
         const product= new Product(req.body);
-        res.status(201).json({
-            success:true, 
-            product
+        product.save()
+        .then((result)=>{
+
+            res.status(201).json({
+                success:true, 
+                data:result,
+                msg:'succesfully register'
+
+            })
+        })
+        .catch((error)=>{
+          
+           next(error)
         })
 
 
@@ -44,7 +86,7 @@ class ProductController{
     }
     //get single product details=> /api/v1/product/:id
 
-    getSingleProduct=(req,res,next)=>{
+    getSingleProduct= (req,res,next)=>{
        
         Product.findById(req.params.id)
         .then((result)=>{
@@ -64,8 +106,10 @@ class ProductController{
             })
         }
         })
-        .catch((err)=>{
-            next(new errorHandler('Product not found ', 404))
+        .catch((error)=>{
+           
+           next(error)
+           
         })  
 
     }
@@ -91,12 +135,12 @@ class ProductController{
                 msg:"product update successfully"
             })
         })
-        .catch((err)=>{
-            res.json({
-                data:null,
-                msg:'err in updating product',
-                succes:false
-            })
+        .catch((error)=>{
+            let err={
+                msg:'error in updating product',
+                error:error
+            }
+           next(err)
         })
     }
 
@@ -112,12 +156,12 @@ class ProductController{
                 succes:true
             })
         })
-        .catch((err)=>{
-            res.json({
-                data:err,
-                msg:'cannot delete data',
-                status:false
-            })
+        .catch((error)=>{
+            let err={
+                msg:'error in deleting product',
+                error:error
+            }
+           next(err)
         })
     }
 
