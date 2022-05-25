@@ -1,14 +1,22 @@
-const nodemailer= require('nodemailer');
-const SMTPConnection = require('nodemailer/lib/smtp-connection');
 
-const sendEmail=(options)=>{
+const nodemailer= require('nodemailer');
+
+
+
+
+const sendEmail=(options,res)=>{
+  return new Promise((res,rej)=>{
+
+ 
+
     const transport = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: process.env.SMTP_PORT,
+     
         auth: {
-          user: process.env.SMPT_EMAIL,
+          user: process.env.SMTP_EMAIL,
 
-          pass: process.env.SMPT_PASSWORD
+          pass: process.env.SMTP_PASSWORD
         }
       });
       const message={
@@ -17,7 +25,14 @@ const sendEmail=(options)=>{
           subject:options.subject,
           text:options.message
       }
-      transport.sendMail(message)
+      transport.sendMail(message,(err,succ)=>{
+        if (err){
+            rej(err)
+        }else{
+          res(succ)
+        }
+      })
+    })
 
 }
 
