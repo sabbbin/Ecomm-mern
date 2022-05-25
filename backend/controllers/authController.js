@@ -1,6 +1,7 @@
 const User = require("../model/usermodel");
 const passwordHash = require("password-hash");
 const sendEmail = require("../utils/sendEmail");
+const crypto = require('crypto')
 
 const { generateToken, resetPassword } = require("../config/generatetoken");
 
@@ -106,6 +107,39 @@ class UserController {
         next("error2 in reseting password");
       });
   };
+    //reset password => /api/v1/user/password/reset/:token
+   newpassword=(req,res,next)=>{
+    
+     const resetPasswordToken= crypto.createHash('sha256').update(req.params.token).digest('hex')
+   
+     User.findOne({
+       resetPasswordToken,
+       resetPasswordExpire:{$gt :Date.now()}
+     })
+     .then((result)=>{
+     
+       if(req.body.password==req.body.conformpassword){
+         User.updateOne({_id:result._id},
+          {
+            password: passwordHash.generate( req.body.password),
+            resetPasswordToken:undefined,
+            resetPasswordExpire:undefined
+          })
+          .then((resul)=>{
+            res.status(200).json({
+              msg:'password update successful',
+              success:true
+            })
+          })
+       }
+     })
+     .catch((err)=>{
+       next('error in updating password')
+     })
+
+   }
+
+
 }
 
 module.exports = UserController;

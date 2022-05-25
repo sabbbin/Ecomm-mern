@@ -16,6 +16,9 @@ router.route('/logout')
 router.route('/forgetpassword')
 .post(authcontroller.forgetPassword)
 
+router.route('/password/reset/:token')
+.post(authcontroller.newpassword)
+
 
 
 module.exports=router 
