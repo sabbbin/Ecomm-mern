@@ -17,10 +17,13 @@ app.use((err, req, res, next) => {
     let message=''
    if (err.name=='ValidationError'){
        message= Object.values(err.errors).map(value=>value.message)
-      console.log(message)
+     
    }
    if (err.name=='CastError'){
        message=`Resouces not found . invalid ${err.path}`
+   }
+   if (err.code===11000){
+      message=`Duplicate ${Object.keys(err.keyValue) } entered`
    }
 
   res.json({

@@ -18,8 +18,7 @@ const resetPassword=(user)=>{
     const resetPasswordToken= crypto.randomBytes(20).toString('hex');
     
     user.resetPasswordToken=crypto.createHash('sha256').update(resetPasswordToken).digest('hex')
-    console.log('reset ' ,user.resetPasswordToken)
-    console.log('reset pass', resetPasswordToken)
+  
   user.resetPasswordExpire=Date.now()+30*60*1000000
  
   return resetPasswordToken

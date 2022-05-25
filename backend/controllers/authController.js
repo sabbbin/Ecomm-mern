@@ -5,7 +5,7 @@ const crypto = require('crypto')
 
 const { generateToken, resetPassword } = require("../config/generatetoken");
 
-class UserController {
+class AuthController {
   //Register a user=> /api/v1/user/register
   registerUser = (req, res, next) => {
     const user1 = new User(req.body);
@@ -138,8 +138,140 @@ class UserController {
      })
 
    }
+   getUserProfile=(req,res,next)=>{
+  
+
+    User.findOne(req.user._id)
+    .then((result)=>{
+        res.status(200).json({
+            success:true,
+            result,
+            msg:'user retrived successfully'
+        })
+    })
+    .catch((err)=>{
+        next('Cannot get user data')
+    })
+}
+//update /change password => /api/v1/user/password/update
+ 
+getUpdatePassword=(req,res,next)=>{
+  const password= req.body.oldpassword
 
 
+  User.findOne(req.user._id)
+  .select('+password')
+  .then((result)=>{
+      if(passwordHash.verify(password,result.password)){
+        result.password= passwordHash.generate(req.body.password)
+        User.updateOne({_id:result._id},{
+          $set:result
+        })
+        .then((result11)=>{
+          res.json({
+
+            success:true,
+            msg:"password update successfully"
+          })
+        })
+
+      }
+      else{
+        next('password doesnot map')
+      }
+        
+  })
+  .catch((err)=>{ 
+      next('Password cannot be updated')
+  })
 }
 
-module.exports = UserController;
+//update user profile => /api/v1/me/update
+updateUserProfile=(req,res,next)=>{
+  const user= req.body
+  // avatar :todo
+  User.updateOne({_id:req.user._id},{
+    email:user.email,
+    name:user.name
+  })
+  .then((result)=>{
+    console.log(result)
+    res.json({
+      success:true,
+      msg:'user update successfully'
+    })
+  })
+  .catch((err)=>{
+    next('Cannot update user profile')
+  })
+}
+//get all users=> /api/v1/user/admin/getallusers
+   getAllUsers=(req,res,next)=>{
+    User.find()
+    .then((result)=>{
+      res.status(200).json({
+        result,
+        msg:'retrived all user successfully',
+        success:true
+      })
+    })
+    .catch((err)=>{
+      next('cannot get all users')
+    })
+   }
+
+   //get all users=> /api/v1/user/admin/specificuser/:id
+   getSpecicUsers=(req,res,next)=>{
+     console.log(req.params.id)
+    User.findById(req.params.id)
+    .then((result)=>{
+      res.status(200).json({
+        result,
+        msg:'retrived all user successfully',
+        success:true
+      })
+    })
+    .catch((err)=>{
+      next('cannot get specified users')
+    })
+   }
+
+   //update user profile by admin => /api/v1/user/admin/specific/:id
+   updateUserProfileByAdmin=(req,res,next)=>{
+     const user= req.body
+     // avatar :todo
+     User.updateOne({_id:req.params.id},{
+       name:user.name,
+       email:user.email,
+       role:user.role
+     })
+     .then((result)=>{
+       console.log(result)
+       res.json({
+         success:true,
+         msg:'user update successfully by admin'
+       })
+     })
+     .catch((err)=>{
+       next('Cannot update user profile by admin')
+     })
+   }
+   //delete user profile by admin => /api/v1/user/admin/specific/:id
+   deleteUserProfileByAdmin=(req,res,next)=>{
+    const user= req.body
+    // avatar :todo
+    User.deleteOne({_id:req.params.id})
+    .then((result)=>{
+  
+      res.json({
+        success:true,
+        msg:'user delete successfully by admin'
+      })
+    })
+    .catch((err)=>{
+      next('Cannot delte user profile by admin')
+    })
+  }
+}
+
+module.exports = AuthController;
