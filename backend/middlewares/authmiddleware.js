@@ -23,7 +23,7 @@ const isAuthenticatedUser = (req, res, next) => {
 const isAuthorizedRole =
   (...roles) =>
   (req, res, next) => {
-    console.log("role");
+ 
     if (roles.includes(req.user.role)) {
       next();
     } else {
@@ -32,7 +32,7 @@ const isAuthorizedRole =
   };
 
 const isSelfDeleted = () => (req, res, next) => {
-  console.log("isseldd");
+  
 
   if (!req.user._id === req.params.id) {
     next();
