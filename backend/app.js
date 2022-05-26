@@ -3,7 +3,7 @@ const cookieParser= require('cookie-parser')
 const app = express();
 const cors= require('cors')
 app.use(express.json());
-app.unsubscribe(cors())
+app.use(cors())
 app.use(cookieParser() )
 
 //Impoprt all routers

@@ -18,7 +18,7 @@ const userSchema= new mongoose.Schema({
     password:{
         type:String,
         required:[true, 'please enter you password'],
-        minlength:[6, 'you password mus be longer than 6  charater'],
+        minlength:[6, 'you password must be longer than 6  charater'],
         select:false
     },
     avatar:{

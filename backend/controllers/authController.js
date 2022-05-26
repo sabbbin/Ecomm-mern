@@ -40,7 +40,7 @@ class AuthController {
           let token = generateToken(result);
 
           let options = {
-            maxAge: 1 * 60 * 100 * 60,
+            maxAge: 1 * 60 * 100000 * 60,
             httpOnly: true,
           };
 
@@ -100,7 +100,7 @@ class AuthController {
               success:true,
               msg:'successful send mail'
             })
-          })
+          }).catch(err=>next(err))
         });
       })
       .catch((err) => {
@@ -131,6 +131,7 @@ class AuthController {
               success:true
             })
           })
+          .catch(err=>next(err))
        }
      })
      .catch((err)=>{
@@ -138,6 +139,9 @@ class AuthController {
      })
 
    }
+
+   //get user profile 
+
    getUserProfile=(req,res,next)=>{
   
 
@@ -174,6 +178,7 @@ getUpdatePassword=(req,res,next)=>{
             msg:"password update successfully"
           })
         })
+        .catch(err=>next(err))
 
       }
       else{

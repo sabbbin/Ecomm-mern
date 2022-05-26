@@ -219,10 +219,14 @@ class ProductController{
 
         Product.findById(req.query.id)
         .then((result)=>{
-            res.status(200).json({
-                success:true,
-                reviews:result.reviews
-            })
+
+            
+                
+                res.status(200).json({
+                    success:true,
+                    reviews:result.reviews
+                })
+          
 
         })
         .catch((err)=>next('error'))

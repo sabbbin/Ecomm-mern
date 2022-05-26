@@ -4,7 +4,7 @@ const nodemailer= require('nodemailer');
 
 
 
-const sendEmail=(options,res)=>{
+const sendEmail=(options)=>{
   return new Promise((res,rej)=>{
 
  
