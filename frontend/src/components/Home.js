@@ -6,20 +6,25 @@ import { getProducts } from "../actions/productActions";
 import Product from "./product/product";
 import Loader from "./layout/loader";
 
+import { ToastContainer, toast } from 'react-toastify';
+
+
 function Home() {
-  const disptch = useDispatch();
+  const dispatch = useDispatch();
 
-  const { loading, Products, error } = useSelector((state) => state.products);
-
+  const { isLoading, products, error } = useSelector((state) => state.Products);
+ console.log('loading', isLoading)
   useEffect(() => {
 
-    disptch(getProducts());
-  }, [disptch]);
+    dispatch(getProducts());
+    toast.success('welcome to home')
+  }, [dispatch]);
 
   return (
       <>
-    
-    {loading? <Loader />:(
+    <ToastContainer />
+
+    {isLoading? <Loader />:(
 
         <div className="container container-fluid">
       <MetaData title={"Buy Best Product Online"} />
@@ -27,8 +32,8 @@ function Home() {
       <div className="row">
         <section id="products" className="container mt-5">
           <div className="row">
-            {Products &&
-              Products.map((product) => (
+            {products &&
+              products.map((product) => (
                 <Product key={product._id} product={product} />
               ))}
           </div>

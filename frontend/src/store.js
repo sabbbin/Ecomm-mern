@@ -3,16 +3,24 @@ import thunk from 'redux-thunk'
  import {composeWithDevTools} from 'redux-devtools-extension'
 
  import { productsReducers } from './reducers/productsReducers'
+ import {userReducer} from './reducers/userReducer';
 const reducer= combineReducers({
-    products:productsReducers
+    Products:productsReducers,
+    User:userReducer
  
 })
 
 let initialState={
-    products:{
-        Products:[],
-        isLoading:false,
-        error:''
+    Products:{
+        products:[],
+        product:{},
+        isLoading:true,
+        msg:''
+    },
+    User:{
+        user:[],
+        isLoading:true,
+        msg:''
     }
      
 }

@@ -7,24 +7,28 @@ export const PRODUCT_ACTION_TYPE={
        CLEAR_ERRORS:'CLEAR_ERRROS'
 }
 
-export const getProducts =()=>disptch=>{
+export const getProducts =()=>dispatch=>{
+    
 
-    disptch({
+    dispatch({
         type:PRODUCT_ACTION_TYPE.PRODUCT_REQUEST
     })
+
+  
     axios.get(process.env.REACT_APP_BASE_API_URL+'api/v1/products')
     .then((result)=>{
+        console.log(result.data.data)
        setTimeout(() => {
            
-           disptch({
+           dispatch({
                type:PRODUCT_ACTION_TYPE.PRODUCT_SUCCESS,
                payload:result.data.data
            })
        }, 300);
     })
     .catch((err)=>{
-       disptch({
-           type:PRODUCT_ACTION_TYPE,
+       dispatch({
+           type:PRODUCT_ACTION_TYPE.PRODUCT_FAIL,
            payload:err.response.data.message
        })
     })
@@ -32,8 +36,8 @@ export const getProducts =()=>disptch=>{
 
 }    
 
-export const clearErrors= ()=>disptch=>{
-    disptch({
+export const clearErrors= ()=>dispatch=>{
+    dispatch({
         type:PRODUCT_ACTION_TYPE.CLEAR_ERRORS
     })
 }
