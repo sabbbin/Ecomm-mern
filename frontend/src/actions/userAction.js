@@ -1,4 +1,5 @@
-import axios from "axios"
+
+import { http } from "../http.services"
 
 export const USER_ACTION_TYPES={
     USER_LOGIN_REQUEST:'USER_LOGIN_REQUEST',
@@ -14,7 +15,7 @@ export const userLogin=(userinfo)=>dispatch=>{
         
     })
 
-    axios.post(process.env.REACT_APP_BASE_API_URL+'api/v1/user/login',userinfo)
+    http.postItem (process.env.REACT_APP_BASE_API_URL+'api/v1/user/login',userinfo)
     .then((response)=>{
         console.log(response.data.success==='true')
         if (response.data.success==='true'){

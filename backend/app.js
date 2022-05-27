@@ -2,9 +2,19 @@ const express = require("express");
 const cookieParser= require('cookie-parser')
 const app = express();
 const cors= require('cors')
+
+const fileUpload = require('express-fileupload');
+
+app.use(fileUpload());
 app.use(express.json());
+app.use(express.urlencoded({extended:false}))
 app.use(cors())
 app.use(cookieParser() )
+
+
+
+//seting up cloudinary configuration
+
 
 //Impoprt all routers
 
@@ -29,7 +39,7 @@ app.use((err, req, res, next) => {
   res.json({
     data: null,
     success: false,
-     message:message?message:err
+     msg:message?message:err
   });
 });
 

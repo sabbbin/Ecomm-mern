@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { http } from "../http.services"
 
 export const PRODUCT_ACTION_TYPE={
        PRODUCT_REQUEST:'PRODUCT_REQUEST',
@@ -15,7 +15,7 @@ export const getProducts =()=>dispatch=>{
     })
 
   
-    axios.get(process.env.REACT_APP_BASE_API_URL+'api/v1/products')
+    http.getItem(process.env.REACT_APP_BASE_API_URL+'api/v1/products')
     .then((result)=>{
         console.log(result.data.data)
        setTimeout(() => {

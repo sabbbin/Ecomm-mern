@@ -1,32 +1,46 @@
 const User = require("../model/usermodel");
 const passwordHash = require("password-hash");
 const sendEmail = require("../utils/sendEmail");
+
 const crypto = require('crypto')
+const  uploaditem  =require( "../config/uploadfile");
 
 const { generateToken, resetPassword } = require("../config/generatetoken");
 
 class AuthController {
   //Register a user=> /api/v1/user/register
   registerUser = (req, res, next) => {
-    const user1 = new User(req.body);
-    const avatar = {
-      public_id: "sdfasdf",
-      url: "asfdas",
-    };
-    user1.avatar = avatar;
-    user1.password = passwordHash.generate(user1.password);
+   
+    const {name, email, password} = req.body;
+ 
+    uploaditem(req.body.avatar)
+     .then((result)=>{
+     
+      let avatar={
+         public_id: result.url,
+         url:result.secure_url
+       }
+           
+    let user= new User({name,email,password,avatar})
+    user.password = passwordHash.generate(user.password);
+       user
+       .save()
+       .then((result) => {
+         res.status(201).json({
+           success: true,
+           msg: "user_created successfully",
+         });
+       })
+       .catch((error) => {
+         next(error);
+       });
+     })
+     .catch((err)=>{
+       console.log('error ')
+       next('error in uploading image')})
 
-    user1
-      .save()
-      .then((result) => {
-        res.status(201).json({
-          success: true,
-          msg: "user_created successfully",
-        });
-      })
-      .catch((error) => {
-        next(error);
-      });
+
+   
   };
 
   //Login User=> /api/v1/user/login
@@ -47,6 +61,7 @@ class AuthController {
           res.status(200).cookie("token", token, options).json({
             msg: "successful",
             result,
+            success:'true'
           });
         } else {
           next("invalid  email or password");
