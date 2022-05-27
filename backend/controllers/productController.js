@@ -30,7 +30,7 @@ class ProductController{
         }
         }
         if (req.query.price){
-            console.log('pirce')
+           
          
          let value=String(req.query.price).split('-')
     
@@ -41,26 +41,41 @@ class ProductController{
          
          filter['price']={$gte:Number(value[0]),$lte:Number(value[1])}
         }
+        
+        var rowperpage=4
+        var skiprow;
         if (req.query.page){
-
-            let rowperpage=4
             
-            var skiprow=rowperpage*(req.query.page-1)??0
+             skiprow=rowperpage*(req.query.page-1)
             
         }
-       
-         Product.find(filter)
-         .skip(skiprow)
-         .then((product)=>{
-            res.status(200).json({
-                success:true,
-                data:product,
-                msg:'product fetch successfully'
+        var productCount;
+           Product.find(filter).count({}, function( err, count){
+           productCount=count
+            
+        })
+
+         setTimeout(() => {
+            Product.find(filter)
+        
+            .skip(skiprow)
+            .limit(rowperpage)
+        
+            .then((product)=>{
+               res.status(200).json({
+                   success:true,
+                   data:product,
+                   rowperpage,
+                    productCount,
+                   msg:'product fetch successfully'
+               })
             })
-         })
-         .catch((er)=>{
-             next(er)
-         })
+            .catch((er)=>{
+                next(er)
+            })
+             
+         }, 1000);
+         
         
     
     }
@@ -93,8 +108,7 @@ class ProductController{
     //get single product details=> /api/v1/product/:id
 
     getSingleProduct= (req,res,next)=>{
-        
-       
+        console.log('helo')
         Product.findById(req.params.id)
         .then((result)=>{
             if (result){

@@ -8,6 +8,7 @@ import store from "./store";
 import Homelayout from "./components/layout/Homelayout";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ProductDetail from "./components/ProductDetail";
 
 export default function App() {
   return (
@@ -20,6 +21,8 @@ export default function App() {
             <Route index element={<Home ></Home>}></Route>
             <Route path='/login' element={<Login></Login>}></Route>
             <Route path='/register' element={<Register />}></Route>
+            <Route path='/product/:id' element={<ProductDetail />}></Route>
+            
             </Route>
 
  

@@ -19,15 +19,17 @@ const axiosRequest=axios.create({
 
 })
 
- const getItem=(url,is_strict)=>{
-     if (is_strict){
-         header['authorization']='abc'
+ const getItem=(url,is_strict=false)=>{
+    
+    let config = getHeaders();
+    if (is_strict){
+        config['authorization'] ='abc'
      }
-     return axiosRequest.get(url,{headers:header})
+     return axiosRequest.get(url,config)
      
 }
 
- const postItem=(url, data, is_strict,is_form=true)=>{
+ const postItem=(url, data, is_strict=false,is_form=false)=>{
     let config = getHeaders();
     if (is_strict){
         config['authorization'] ='abc'
@@ -39,7 +41,27 @@ const axiosRequest=axios.create({
     return axiosRequest.post(url,data,config)
 }
 
+const updateItem=(url, data,is_strict=false,is_form=false)=>
+            {
+                let config = getHeaders();
+                if (is_strict){
+                    config['authorization'] ='abc'
+                }
+                if (is_form){
+                    config['content-type']='multipart/form-data'
+                }
+               
+                return axiosRequest.put(url,data,config)
+            }
 
+
+const deleteItem=(url,is_strict=false)=>{
+    let config = getHeaders();
+    if (is_strict){
+        config['authorization'] ='abc'
+    }
+    return axiosRequest.delete(url)
+}
 
 
 // const uploadItem=(method,url, data,files, is_strict=true)=>{
@@ -76,5 +98,7 @@ const axiosRequest=axios.create({
 export const http={
     getItem,
     postItem,
+    updateItem,
+    deleteItem
 
 }

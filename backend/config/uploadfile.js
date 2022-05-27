@@ -1,5 +1,3 @@
-
-
 const cloudinary= require('cloudinary')
 
 const uploaditem=(img)=>{

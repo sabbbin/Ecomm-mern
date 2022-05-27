@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {  http } from "../http.services";
 
 const Register = () => {
@@ -15,7 +16,8 @@ const Register = () => {
 let [avatar, setAvatar]= useState('')
 let [preview, setPreview]= useState('')
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch() 
+    const navigate= useNavigate()
 
     let [data, setData]= useState(initialState)
     let [filesToUpload,setFilesToUpload]=useState([]);
@@ -31,7 +33,7 @@ let [preview, setPreview]= useState('')
         form_data.append('avatar', avatar)
        
       
-        http.postItem ('api/v1/user/register',form_data)
+        http.postItem ('api/v1/user/register',form_data,)
       
         
     }

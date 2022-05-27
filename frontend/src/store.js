@@ -15,7 +15,10 @@ let initialState={
         products:[],
         product:{},
         isLoading:true,
-        msg:''
+        msg:'',
+        search:false,
+        resPerPage:0,
+        productCount:0
     },
     User:{
         user:[],
