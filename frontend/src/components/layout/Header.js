@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getProducts, searchProducts } from "../../actions/productActions";
+import { getProducts } from "../../actions/productActions";
+import { searchProducts } from "../../actions/searchAction";
 
 
 
@@ -10,12 +11,12 @@ function Header() {
    let [search, setSearch]= useState('')
    let dispatch= useDispatch()
  
-   const [price, setPrice]=useState([1,1000])
+  
 
   
    const handleSubmit=()=>{
     
-    dispatch(searchProducts(search ,1, price))
+    dispatch(searchProducts(search))
    
    }
   return (

@@ -11,7 +11,7 @@ class ProductController{
     //get all products => /api/v1/products
     getProduct=(req,res,next)=>{
       
-
+      
         let filter={}
         if (req.query.key){
             filter={
@@ -28,6 +28,10 @@ class ProductController{
                 $options:'i'
            
         }
+    }
+        if (req.query.rating){
+          
+                filter['rating']={$gte:Number(req.query.rating)}
         }
         if (req.query.price){
            

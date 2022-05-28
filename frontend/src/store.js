@@ -4,9 +4,12 @@ import thunk from 'redux-thunk'
 
  import { productsReducers } from './reducers/productsReducers'
  import {userReducer} from './reducers/userReducer';
+import { searchReducer } from './reducers/searchReducer.js';
+
 const reducer= combineReducers({
     Products:productsReducers,
-    User:userReducer
+    User:userReducer,
+    Search:searchReducer
  
 })
 
@@ -16,7 +19,7 @@ let initialState={
         product:{},
         isLoading:true,
         msg:'',
-        search:false,
+     
         resPerPage:0,
         productCount:0
     },
@@ -24,6 +27,10 @@ let initialState={
         user:[],
         isLoading:true,
         msg:''
+    },
+    Search:{
+        search:'',
+        isSearch:''
     }
      
 }
