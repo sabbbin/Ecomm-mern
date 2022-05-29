@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { userLogin } from '../actions/userAction';
 
 
@@ -7,10 +8,22 @@ import { userLogin } from '../actions/userAction';
 
 
 const Login = () => {
- 
+
+let navigate = useNavigate()
 const dispatch =useDispatch()
 let [email, setEmail]= useState('');
 let [password, setPassword]= useState('')
+
+let {user, status} = useSelector(state=>state.User)
+
+console.log('user',status)
+useEffect(()=>{
+  if (status){
+    navigate('/')
+  }
+
+},[status])
+
 
 const handleSubmit=(e)=>{
     e.preventDefault()
@@ -46,7 +59,7 @@ const handleSubmit=(e)=>{
           />
         </div>
 
-        <a href="#" className="float-right mb-4">Forgot Password?</a>
+        <Link to="#" className="float-right mb-4">Forgot Password?</Link>
 
         <button
           id="login_button"
@@ -56,7 +69,7 @@ const handleSubmit=(e)=>{
           LOGIN
         </button>
 
-        <a href="#" className="float-right mt-3">New User?</a>
+        <Link to="#" className="float-right mt-3">New User?</Link>
       </form>
       </div>
 </div>

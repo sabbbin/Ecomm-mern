@@ -24,9 +24,10 @@ let initialState={
         productCount:0
     },
     User:{
-        user:[],
+        user:{},
         isLoading:true,
-        msg:''
+        msg:'',
+        status:false
     },
     Search:{
         search:'',

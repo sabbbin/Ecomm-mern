@@ -54,8 +54,9 @@ class AuthController {
           let token = generateToken(result);
 
           let options = {
-            maxAge: 1 * 60 * 100000 * 60,
+            maxAge: 1 * 60 * 100000 * 60000,
             httpOnly: true,
+           
           };
 
           res.status(200).cookie("token", token, options).json({

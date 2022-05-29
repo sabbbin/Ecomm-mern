@@ -33,7 +33,14 @@ let [preview, setPreview]= useState('')
         form_data.append('avatar', avatar)
        
       
-        http.postItem ('api/v1/user/register',form_data,)
+        http.postItem ('api/v1/user/register',form_data)
+        .then((result)=>{
+          navigate('/login')
+        })
+        .catch((err)=>{
+          console.log('error in register',err)
+        })
+        
       
         
     }

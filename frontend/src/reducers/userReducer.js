@@ -1,24 +1,51 @@
 import { USER_ACTION_TYPES } from "../actions/userAction";
 
 
-export const userReducer=(state,action)=>{
-  console.log('action', action)
+
+
+
+export const userReducer=(state={User:{user:{}}},action)=>{
     switch(action.type){
         case USER_ACTION_TYPES.USER_LOGIN_REQUEST:
             return {
                 ...state,
-                loading:true,
+                isLoading:true,
                 user:{}
             }
-        case USER_ACTION_TYPES.USER_LOGIN_SUCCESS:
+            case USER_ACTION_TYPES.USER_LOGIN_SUCCESS:
+            console.log('action', action)
             return {
                 ...state,
-                isloading:false,
+                isLoading:false,
                 user:action.payload,
-                msg:'successful login'
+                msg:'successful login',
+                status:action.status
 
                 
             }
+            case USER_ACTION_TYPES.USER_LOGOUT:
+                return {
+                    user:null,
+                    status:false,
+                    msg:'successfuly logout'
+                }
+
+            case USER_ACTION_TYPES.USER_LOGOUT_FAIL:
+                return {
+                    ...state,
+                    msg:action.payload
+                }
+
+            case USER_ACTION_TYPES.USER_LOAD:
+                
+                return {
+                    ...state,
+                    isLoading:false,
+                    user:action.payload,
+                    msg:'successful load user'
+    
+                    
+                }
         case USER_ACTION_TYPES.USER_LOGIN_FAIL:
             return {
                 ...state,

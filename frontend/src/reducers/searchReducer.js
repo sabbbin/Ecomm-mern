@@ -7,7 +7,7 @@ export const searchReducer = (state, action) => {
     switch(action.type){
         case SEARCH_ACTION_TYPE.SEARCH_KEYWORD:
             return {
-                ...state,
+              
                 search:action.payload,
                 isSearch:true
             }

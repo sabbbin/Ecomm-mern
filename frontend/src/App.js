@@ -9,6 +9,7 @@ import Homelayout from "./components/layout/Homelayout";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProductDetail from "./components/ProductDetail";
+import { Profile } from "./components/Profile";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
             <Route path='/login' element={<Login></Login>}></Route>
             <Route path='/register' element={<Register />}></Route>
             <Route path='/product/:id' element={<ProductDetail />}></Route>
+            <Route path='/me' element={<Profile/>}></Route>
             
             </Route>
 
