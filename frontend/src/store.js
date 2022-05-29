@@ -27,7 +27,8 @@ let initialState={
         user:{},
         isLoading:true,
         msg:'',
-        status:false
+        status:false,
+        isUpdate:false,
     },
     Search:{
         search:'',

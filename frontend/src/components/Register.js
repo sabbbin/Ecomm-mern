@@ -16,11 +16,11 @@ const Register = () => {
 let [avatar, setAvatar]= useState('')
 let [preview, setPreview]= useState('')
 
-    const dispatch = useDispatch() 
+
     const navigate= useNavigate()
 
     let [data, setData]= useState(initialState)
-    let [filesToUpload,setFilesToUpload]=useState([]);
+   
 
 
     const handleSubmit=(e)=>{
@@ -81,7 +81,7 @@ let [preview, setPreview]= useState('')
     <form className="shadow-lg" onSubmit={handleSubmit} encType='multipart/form-data'>
         <h1 className="mb-3">Register</h1>
 
-      <div className="form-group" onSubmit={handleSubmit}>
+      <div className="form-group" >
         <label htmlFor="email_field">Name</label>
         <input type="name" id="name_field"
          className="form-control" 

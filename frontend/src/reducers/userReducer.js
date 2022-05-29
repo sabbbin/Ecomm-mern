@@ -54,6 +54,19 @@ export const userReducer=(state={User:{user:{}}},action)=>{
                 isloading:false,
                 msg:'Invalid username or password'
             }
+
+        case USER_ACTION_TYPES.USER_UPDATE_SUCCESS:
+                return {
+                    ...state,
+                    msg:action.payload,
+                    isUpdate:true,
+                } 
+        case USER_ACTION_TYPES.USER_UPDATE_FAIL:
+            return{
+                ...state,
+                msg:action.payload ,
+                isUpdate:false
+            }   
         default:
             return {
                 ...state

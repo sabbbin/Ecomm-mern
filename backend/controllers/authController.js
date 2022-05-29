@@ -3,7 +3,7 @@ const passwordHash = require("password-hash");
 const sendEmail = require("../utils/sendEmail");
 
 const crypto = require('crypto')
-const  uploaditem  =require( "../config/uploadfile");
+const  {uploaditem,deleteimg}  =require( "../config/uploadfile");
 
 const { generateToken, resetPassword } = require("../config/generatetoken");
 
@@ -12,10 +12,11 @@ class AuthController {
   registerUser = (req, res, next) => {
    
     const {name, email, password} = req.body;
+    console.log('avatar',req.body.avatar)
  
     uploaditem(req.body.avatar)
-     .then((result)=>{
-     
+     .then( (result)=>{
+      console.log('result resgister',result)
       let avatar={
          public_id: result.url,
          url:result.secure_url
@@ -55,12 +56,13 @@ class AuthController {
 
           let options = {
          
-            maxAge:1000*60*15,
+            maxAge:1000*60*150,
             httpOnly: true,
             
            
           };
           console.log('result', result)
+          console.log('token', token)
         
           res.status(200).cookie('token', token, options).json({
             msg: "successful",
@@ -162,12 +164,13 @@ class AuthController {
    //get user profile 
 
    getUserProfile=(req,res,next)=>{
+     
   
 
-    User.findOne(req.user._id)
+    User.findById(req.user._id)
     .then((result)=>{
-      console.log('user get profile', result)
-
+   
+    console.log('rsult',result)
         res.status(200).json({
             success:true,
             result,
@@ -181,12 +184,13 @@ class AuthController {
 //update /change password => /api/v1/user/password/update
  
 getUpdatePassword=(req,res,next)=>{
-  const password= req.body.oldpassword
+  let password= req.body.oldpassword
 
-
-  User.findOne(req.user._id)
+  console.log('apassword', req.user)
+  User.findOne({_id:req.user._id})
   .select('+password')
   .then((result)=>{
+    console.log('result',result)
       if(passwordHash.verify(password,result.password)){
         result.password= passwordHash.generate(req.body.password)
         User.updateOne({_id:result._id},{
@@ -214,22 +218,53 @@ getUpdatePassword=(req,res,next)=>{
 
 //update user profile => /api/v1/me/update
 updateUserProfile=(req,res,next)=>{
-  const user= req.body
+  const {name,email}= req.body
   // avatar :todo
-  User.updateOne({_id:req.user._id},{
-    email:user.email,
-    name:user.name
-  })
-  .then((result)=>{
-    console.log(result)
-    res.json({
-      success:true,
-      msg:'user update successfully'
+
+   uploaditem(req.body.avatar)
+   .then((result)=>{
+ 
+      var avatar1={
+        public_id: result.url,
+        url:result.secure_url
+      }
+    
+       User.findById(req.user._id)
+       .then((result1)=>{
+     
+        deleteimg(result1.avatar.public_id)
+        .then((result2)=>{
+     
+           let user={
+         name:name,
+         email:email,
+         avatar:avatar1
+       }
+          User.updateOne({_id:req.user._id},{
+            $set:user
+          })
+          .then((result3)=>{
+           
+            res.json({
+              success:true,
+              msg:'user update successfully',
+              data:result3
+            })
+          })
+        })
+       })
+       
+
+      
+     
+      
+     
     })
-  })
-  .catch((err)=>{
-    next('Cannot update user profile')
-  })
+      .catch((err)=>{
+        next('Cannot update user profile')
+      })
+   
+   
 }
 //get all users=> /api/v1/user/admin/getallusers
    getAllUsers=(req,res,next)=>{

@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link} from 'react-router-dom'
@@ -10,18 +11,20 @@ export const Profile = () => {
  let dispatch = useDispatch()
 
 
-    let {user, isLoading} =useSelector(state=>state.User)
-    useEffect(()=>{
-        dispatch(loadUser())
-    },[])
-    
+    let {user, isLoading, status} =useSelector(state=>state.User)
 
- console.log('user',user)
+   
+    useEffect(()=>{
+        console.log('user  sdaf',user)
+        dispatch(loadUser())
+    },[dispatch])   
+
+   
 
   return (
    <>
 
-   {isLoading?(
+   {!status?(
       <Loader/>
 
    ):(
@@ -31,11 +34,11 @@ export const Profile = () => {
            <div className=' row mt-5 justify-content-around user-info'>
             
                 <div className='col-12 col-md-3'>
-                    <img src='' alt='images/camera.jpg'
+                    <img src={user.avatar.public_id} alt='images/camera.jpg'
                       className='img-fluid rounded-circle'>
                     
                     </img>
-                    <Link to='/edit_profile' className='d-block btn btn-danger  my-5'>
+                    <Link to='/update' className='d-block btn btn-danger  my-5'>
                         Edit profile
                     </Link>
     
@@ -50,10 +53,12 @@ export const Profile = () => {
                     <h3>Joined On</h3>
                     <p className='text-muted'>{String(user.createdAt).substring(0,10)}</p>
     
-                    <button className=' btn btn-danger btn-block'>
-                        Chanded password
-                    </button>
-    
+                   
+
+                    <Link to='/changepassword' className='d-block btn btn-danger  my-5'>
+                        Change Password
+                    </Link>
+
                 </div>
     
                </div>

@@ -8,11 +8,16 @@ import { loadUser, userLogout } from "../../actions/userAction";
 
 
 
+
+
 function Header() {
+ 
+  
 
    let [search, setSearch]= useState('')
    let dispatch= useDispatch()
    let {user, isLoading, status}= useSelector(state=>state.User)
+
 
  
 
@@ -20,9 +25,15 @@ function Header() {
    const handlelogout=()=>{
      dispatch(userLogout())
    }
+   
+   
    useEffect(()=>{
+    // let token =Cookies
+     if (status){
+
+       dispatch(loadUser())
+     }
  
-     dispatch(loadUser())
    },[])
 
   
@@ -70,7 +81,7 @@ function Header() {
          <Link to='#' className="btn  dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
          >
            <figure className="avatar avatar-nav">
-             <img src={user.avatar&&user.avatar.public_id} alt='no'
+             <img src={user&&user.avatar.public_id} alt='no'
              className="rounded-circle"
              ></img>
            </figure>
@@ -83,7 +94,7 @@ function Header() {
          
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-      {(user.role=='admin')?(
+      {(user&&user.role=='admin')?(
        
 
          <Link  className="dropdown" to='/dashboard' >Dashboard</Link>
