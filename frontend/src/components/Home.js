@@ -7,7 +7,8 @@ import Product from "./product/product";
 import Loader from "./layout/loader";
 import Pagination from 'react-js-pagination'
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
+import { loadUser } from "../actions/userAction";
 
 const Slider = require('rc-slider');
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -39,6 +40,7 @@ const categories=[
                 'outdoors',
                 'Home'
 ]
+
 
 
   useEffect(() => {
@@ -104,9 +106,9 @@ const categories=[
                 <hr className="mt-5" />
                 <div className="mt-5 mb-3">
                   <h4 className=" text-center mb-4">Category</h4>
-                   <ul className="">
+                   <ul className="nav-item">
                   {categories.map((cate,id)=>(
-                    <li key={id}
+                    <li key={id} active
                     style={{cursor:'pointer',
                     listStyleType:'none'
                    
@@ -123,13 +125,14 @@ const categories=[
                 <div className="mt-5 mb-3">
                   <h4 className=" text-center mb-4">Ratings</h4>
                    <ul className="">
-                  {[5,4,3,2,1].map((cate,id)=>(
-                    <li key={id}
+                  {[5,4,3,2,1].map((star,id)=>(
+                    <li key={id} 
+               
                     style={{cursor:'pointer',
                     listStyleType:'none'
                    
                   }}
-                  onClick={()=>setRating(cate)}
+                  onClick={()=>setRating(star)}
                     >
                       <div className="rating-outer">
                         <div className="rating-inner" 

@@ -25,6 +25,7 @@ export const userReducer=(state={User:{user:{}}},action)=>{
             }
             case USER_ACTION_TYPES.USER_LOGOUT:
                 return {
+                    ...state,
                     user:null,
                     status:false,
                     msg:'successfuly logout'
@@ -42,6 +43,7 @@ export const userReducer=(state={User:{user:{}}},action)=>{
                     ...state,
                     isLoading:false,
                     user:action.payload,
+                    status:action.status,
                     msg:'successful load user'
     
                     

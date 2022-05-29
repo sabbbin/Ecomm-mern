@@ -13,14 +13,17 @@ function Header() {
    let [search, setSearch]= useState('')
    let dispatch= useDispatch()
    let {user, isLoading, status}= useSelector(state=>state.User)
-   console.log('user',user)
-   console.log('userstatu',status)
+
  
 
 
    const handlelogout=()=>{
      dispatch(userLogout())
    }
+   useEffect(()=>{
+ 
+     dispatch(loadUser())
+   },[])
 
   
    const handleSubmit=()=>{

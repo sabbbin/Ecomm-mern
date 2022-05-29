@@ -54,12 +54,15 @@ class AuthController {
           let token = generateToken(result);
 
           let options = {
-            maxAge: 1 * 60 * 100000 * 60000,
+         
+            maxAge:1000*60*15,
             httpOnly: true,
+            
            
           };
-
-          res.status(200).cookie("token", token, options).json({
+          console.log('result', result)
+        
+          res.status(200).cookie('token', token, options).json({
             msg: "successful",
             result,
             success:'true'
@@ -163,6 +166,8 @@ class AuthController {
 
     User.findOne(req.user._id)
     .then((result)=>{
+      console.log('user get profile', result)
+
         res.status(200).json({
             success:true,
             result,

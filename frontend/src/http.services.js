@@ -12,6 +12,7 @@ const getHeaders = () => {
 const axiosRequest=axios.create({
     baseURL:process.env.REACT_APP_BASE_API_URL,
     responseType:'json',
+    withCredentials:true,
     timeout:400000,
     timeoutErrorMessage:'Request timed out',
   
@@ -22,18 +23,18 @@ const axiosRequest=axios.create({
  const getItem=(url,is_strict=false)=>{
     
     let config = getHeaders();
-    if (is_strict){
-        config['authorization'] ='abc'
-     }
+    // if (is_strict){
+    //     config['authorization'] ='abc'
+    //  }
      return axiosRequest.get(url,config)
      
 }
 
  const postItem=(url, data, is_strict=false,is_form=false)=>{
     let config = getHeaders();
-    if (is_strict){
-        config['authorization'] ='abc'
-    }
+    // if (is_strict){
+    //     config['authorization'] ='abc'
+    // }
     if (is_form){
         config['content-type']='multipart/form-data'
     }
@@ -57,9 +58,9 @@ const updateItem=(url, data,is_strict=false,is_form=false)=>
 
 const deleteItem=(url,is_strict=false)=>{
     let config = getHeaders();
-    if (is_strict){
-        config['authorization'] ='abc'
-    }
+    // if (is_strict){
+    //     config['authorization'] ='abc'
+    // }
     return axiosRequest.delete(url)
 }
 

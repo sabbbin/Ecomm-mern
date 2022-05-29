@@ -44,9 +44,9 @@ export const userLogin=(userinfo)=>dispatch=>{
         
     })
 
-    http.postItem (process.env.REACT_APP_BASE_API_URL+'api/v1/user/login',userinfo)
+    http.postItem ('api/v1/user/login',userinfo)
     .then((response)=>{
-        console.log(response.data.success==='true')
+        console.log('response',response)
         if (response.data.success==='true'){
               console.log(response.data.result)
             dispatch({
@@ -73,12 +73,23 @@ export const userLogin=(userinfo)=>dispatch=>{
 }
 
 export const loadUser=()=>dispatch=>{
+
+
+    dispatch({
+        type:USER_ACTION_TYPES.USER_LOGIN_REQUEST
+
+        
+    })
+
+       console.log('helo i amd at user loader')
+
     http.getItem('api/v1/user/me')
     .then((result)=>{
         console.log('dlsfj', result)
         dispatch({
             type:USER_ACTION_TYPES.USER_LOAD,
-            payload:result.data.data
+            payload:result.data.result,
+            status:true
         })
     })
     .catch((err)=>{

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { userLogin } from '../actions/userAction';
+import { loadUser, userLogin } from '../actions/userAction';
 
 
 
@@ -16,8 +16,9 @@ let [password, setPassword]= useState('')
 
 let {user, status} = useSelector(state=>state.User)
 
-console.log('user',status)
+
 useEffect(()=>{
+
   if (status){
     navigate('/')
   }
@@ -69,7 +70,7 @@ const handleSubmit=(e)=>{
           LOGIN
         </button>
 
-        <Link to="#" className="float-right mt-3">New User?</Link>
+        <Link to="/register" className="float-right mt-3">New User?</Link>
       </form>
       </div>
 </div>

@@ -4,6 +4,7 @@ const User = require("../model/usermodel");
 
 const isAuthenticatedUser = (req, res, next) => {
   const { token } = req.cookies;
+  console.log('token', token)
   if (!token) {
     next("Login first ");
   } else {
